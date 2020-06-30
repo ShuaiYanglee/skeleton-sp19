@@ -35,7 +35,7 @@ public class Clorus extends Creature {
     @Override
     public void move() {
         energy -= MOVE_LOSE_ENERGY;
-        minEnergyCheck();
+//        minEnergyCheck();
     }
 
     @Override
@@ -53,7 +53,7 @@ public class Clorus extends Creature {
     @Override
     public void stay() {
         energy -= STAY_LOSE_ENERGY;
-        minEnergyCheck();
+//        minEnergyCheck();
     }
 
     @Override
