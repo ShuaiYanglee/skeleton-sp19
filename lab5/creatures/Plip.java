@@ -1,9 +1,7 @@
 package creatures;
 
-import huglife.Creature;
-import huglife.Direction;
-import huglife.Action;
-import huglife.Occupant;
+import edu.princeton.cs.algs4.StdRandom;
+import huglife.*;
 
 import java.awt.Color;
 import java.util.ArrayDeque;
@@ -18,27 +16,33 @@ import java.util.Map;
 public class Plip extends Creature {
 
     /**
-     * red color.
+     * the max energy that Plips can have.
      */
-    private int r;
+    private double MAX_ENERGY = 2.0D;
+
     /**
-     * green color.
+     * the energy gian when Plips stay
      */
-    private int g;
+    private double STAY_GAIN_ENERGY = 0.2D;
+
     /**
-     * blue color.
+     * the energy lose when Plips move
      */
-    private int b;
+    private double MOVE_LOSE_ENERGY = 0.15D;
+
 
     /**
      * creates plip with energy equal to E.
      */
     public Plip(double e) {
         super("plip");
-        r = 0;
-        g = 0;
-        b = 0;
+        r = 99;
+        g = 63;
+        b = 76;
         energy = e;
+        maxEnergyCheck();
+        minEnergyCheck();
+
     }
 
     /**
@@ -56,8 +60,9 @@ public class Plip extends Creature {
      * linearly in between these two extremes. It's not absolutely vital
      * that you get this exactly correct.
      */
+    @Override
     public Color color() {
-        g = 63;
+        g = (int) (63 + 96 * this.energy);
         return color(r, g, b);
     }
 
@@ -73,25 +78,42 @@ public class Plip extends Creature {
      * to avoid the magic number warning, you'll need to make a
      * private static final variable. This is not required for this lab.
      */
+    @Override
     public void move() {
-        // TODO
+        energy -= MOVE_LOSE_ENERGY;
+        minEnergyCheck();
     }
 
 
     /**
      * Plips gain 0.2 energy when staying due to photosynthesis.
      */
+    @Override
     public void stay() {
-        // TODO
+        this.energy += STAY_GAIN_ENERGY;
+        maxEnergyCheck();
     }
+
+    /**
+     * Plips should never have energy greater than 2.
+     * If an action would cause the Plip to have energy greater than 2,
+     * then it should be set to 2 instead.
+     */
+    private void maxEnergyCheck() {
+        this.energy = this.energy > MAX_ENERGY ? MAX_ENERGY : this.energy;
+    }
+
 
     /**
      * Plips and their offspring each get 50% of the energy, with none
      * lost to the process. Now that's efficiency! Returns a baby
      * Plip.
      */
+    @Override
     public Plip replicate() {
-        return this;
+        energy = energy / 2;
+        Plip p = new Plip(energy);
+        return p;
     }
 
     /**
@@ -107,24 +129,43 @@ public class Plip extends Creature {
      * scoop on how Actions work. See SampleCreature.chooseAction()
      * for an example to follow.
      */
+    @Override
     public Action chooseAction(Map<Direction, Occupant> neighbors) {
         // Rule 1
         Deque<Direction> emptyNeighbors = new ArrayDeque<>();
         boolean anyClorus = false;
-        // TODO
         // (Google: Enhanced for-loop over keys of NEIGHBORS?)
         // for () {...}
+        for (Map.Entry<Direction, Occupant> entry : neighbors.entrySet()) {
+            if (entry.getValue().name().equals("clorus")) {
+                anyClorus = true;
+            } else if (entry.getValue().name().equals("empty")) {
+                emptyNeighbors.add(entry.getKey());
+            }
+        }
 
-        if (false) { // FIXME
-            // TODO
+        // If no empty adjacent spaces, STAY
+        if (emptyNeighbors.size() == 0) {
+            return new Action(Action.ActionType.STAY);
         }
 
         // Rule 2
         // HINT: randomEntry(emptyNeighbors)
+        if (energy >= 1.0D) {
+            Direction direction = HugLifeUtils.randomEntry(emptyNeighbors);
+            return new Action(Action.ActionType.REPLICATE, direction);
+        }
 
         // Rule 3
+        if (anyClorus) {
+            if (StdRandom.uniform() <= 0.5) {
+                Direction direction = HugLifeUtils.randomEntry(emptyNeighbors);
+                return new Action(Action.ActionType.MOVE, direction);
+            }
+        }
 
         // Rule 4
         return new Action(Action.ActionType.STAY);
     }
+
 }

@@ -10,6 +10,19 @@ import java.awt.Color;
  */
 public abstract class Occupant {
     /**
+     * red color.
+     */
+    protected int r;
+    /**
+     * green color.
+     */
+    protected int g;
+    /**
+     * blue color.
+     */
+    protected int b;
+
+    /**
      * Name for this type of Occupant.
      */
     protected final String name;

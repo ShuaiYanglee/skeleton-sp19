@@ -124,17 +124,18 @@ public class HugLife {
      * @return a newly initialized HugLife
      */
     public static HugLife readWorld(String worldName) {
-        In in = new In("huglife/" + worldName + ".world");
+//        In in = new In("huglife/" + worldName + ".world");
+        In in = new In(worldName + ".world");
         HugLife h = new HugLife(WORLD_SIZE);
         while (!in.isEmpty()) {
             String creature = in.readString();
             int x = in.readInt();
             int y = in.readInt();
             switch (creature) {
-                //Uncomment this when you're ready to test out your clorus class
-                //case "clorus":
-                //    h.addCreature(x, y, new Clorus(1));
-                //    break;
+//                Uncomment this when you're ready to test out your clorus class
+                case "clorus":
+                    h.addCreature(x, y, new Clorus(1));
+                    break;
                 case "plip":
                     h.addCreature(x, y, new Plip());
                     break;

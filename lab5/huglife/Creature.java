@@ -16,6 +16,11 @@ public abstract class Creature extends Occupant {
     protected double energy;
 
     /**
+     * the min energy that creature can have
+     */
+    private double MIN_ENERGY = 0.0D;
+
+    /**
      * Creates a creature with the name N. The intention is that this
      * name should be shared between all creatures of the same type.
      */
@@ -56,4 +61,16 @@ public abstract class Creature extends Occupant {
     public double energy() {
         return energy;
     }
+
+
+    /**
+     * Plips should also never have energy less than 0.
+     * If an action would cause the Plip to have energy less than 0,
+     * then it should be set to 0 instead.
+     */
+    protected void minEnergyCheck() {
+        this.energy = this.energy < MIN_ENERGY ? MIN_ENERGY : this.energy;
+    }
+
+
 }
