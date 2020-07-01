@@ -1,4 +1,3 @@
-
 /**
  * @author yangshuai
  * @Description: Performs ArrayDeque Test
@@ -52,6 +51,9 @@ public class LinkedListDeque<T> extends AbstractDeque<T> {
 
     @Override
     public T removeFirst() {
+        if (isEmpty()) {
+            return null;
+        }
         Node<T> first = head.next;
         first.next.prev = head;
         head.next = first.next;
@@ -63,6 +65,9 @@ public class LinkedListDeque<T> extends AbstractDeque<T> {
 
     @Override
     public T removeLast() {
+        if (isEmpty()) {
+            return null;
+        }
         Node<T> last = tail.prev;
         tail.prev = last.prev;
         last.prev.next = tail;
@@ -116,13 +121,13 @@ public class LinkedListDeque<T> extends AbstractDeque<T> {
         Node next;
         Node prev;
 
-        public Node(T item) {
+        Node(T item) {
             this.item = item;
             this.next = null;
             this.prev = null;
         }
 
-        public Node(T item, Node next, Node prev) {
+        Node(T item, Node next, Node prev) {
             this.item = item;
             this.next = next;
             this.prev = prev;

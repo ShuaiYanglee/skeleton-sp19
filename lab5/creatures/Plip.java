@@ -41,8 +41,7 @@ public class Plip extends Creature {
         b = 76;
         energy = e;
         maxEnergyCheck();
-        minEnergyCheck();
-
+//        minEnergyCheck();
     }
 
     /**
@@ -81,7 +80,7 @@ public class Plip extends Creature {
     @Override
     public void move() {
         energy -= MOVE_LOSE_ENERGY;
-        minEnergyCheck();
+//        minEnergyCheck();
     }
 
 

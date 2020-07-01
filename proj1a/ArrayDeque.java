@@ -1,7 +1,3 @@
-
-
-import java.util.NoSuchElementException;
-
 /**
  * @author yangshuai
  * @date 2020/6/19 4:29 下午
@@ -95,6 +91,9 @@ public class ArrayDeque<T> extends AbstractDeque<T> {
      */
     @Override
     public T removeFirst() {
+        if (isEmpty()) {
+            return null;
+        }
         Object item = data[head];
         data[head] = null;
         head = (head + 1) % data.length;
@@ -109,6 +108,9 @@ public class ArrayDeque<T> extends AbstractDeque<T> {
      */
     @Override
     public T removeLast() {
+        if (isEmpty()) {
+            return null;
+        }
         tail = (tail - 1 + data.length) % data.length;
         Object item = data[tail];
         data[tail] = null;
