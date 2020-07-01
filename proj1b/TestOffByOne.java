@@ -17,5 +17,4 @@ public class TestOffByOne {
         assertFalse("x equals x", offByOne.equalChars('x', 'x'));
     }
 
-
 }
